@@ -8,31 +8,34 @@ describe Chop do
     end
   end
 
-  context "with search target not in array" do
-    it "indicates item not found" do
-      Chop.find(1, [0,2,3]).should == -1
+  context "with search target in the middle of the array" do
+    it "provides the index of the located item" do
+      Chop.find(20, [5, 10, 20, 30, 50]).should == 2
     end
   end
 
-  context "with search target in array" do
-    it "provides the index of the located item when in the middle of the array" do
-      Chop.find(1, [0,1,2,3]).should == 1
-      Chop.find(4, [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]).should == 4
+  context "with search target as first item in the array" do
+    it "provides an index of 0" do
+      Chop.find(20, [20, 30, 40, 50, 60]).should == 0
     end
+  end
 
-    it "provides the index of the located item when it is last in the array" do
+  context "with search target as last item in the array" do
+    it "provides an index for the last item" do
       Chop.find(20, [5, 10, 15, 20]).should == 3
     end
+  end
 
-    it "provides the index of the located item when it is first in the array" do
-      Chop.find(20, [20,40,60,80]).should == 0
+  context "with search target not in the array" do
+    it "indicates item not found" do
+      Chop.find(20, [5, 15, 45, 135]).should == -1
     end
   end
 
-  context "with a large array" do
-    it "locates the item" do
-      search_in = Array(0..900)
-      Chop.find(100, search_in).should == 100
+  context "with a large array and a locatable search target" do
+    it "provides the index of the found item" do
+      large_array = Array(0..900)
+      Chop.find(100, large_array).should == 100
     end
   end
 end
